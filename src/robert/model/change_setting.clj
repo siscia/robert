@@ -1,11 +1,16 @@
 (ns robert.model.change-setting
-  (:require [monger.collection :as mc]
+  (:require [monger.core :refer [get-db]]
+            [monger.collection :as mc]
+            [monger.operators :refer :all]
             [cemerick.friend.credentials :as creds]
             [noir.validation :as v])
-  (:require [robert.utils :as u])
+  (:require [robert.utils :as u]
+            [robert.model.config :refer [connection]])
   (:import [org.bson.types ObjectId]))
 
-(defn ask-change-email! [database email new-email password]
+(defn uuid [] (str (java.util.UUID/randomUUID)))
+
+(defn prepare-change-email! [database email new-email password]
   (let [user (mc/find-one-as-map (get-db connection database) "users" {:email email})]
     (if (creds/bcrypt-verify password (:password user))
       (mc/save-and-return (get-db connection database) "users"

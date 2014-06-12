@@ -4,6 +4,7 @@
             [compojure.route :as route]
             [noir.validation :as vali]
             [cemerick.friend :as friend]
+            [cemerick.friend.credentials :as creds]
             [liberator.core :refer [defresource resource]]
             [cheshire.core :refer [generate-string]])
 
@@ -154,7 +155,7 @@
                 (let [verification (user/verify-email! code)]
                   (cond
                    (map? verification) [true {:result {:message "The user email is been validated"}}]
-                   (keyword? verificata) [false {:message {:message "The code is wrong"}}])))
+                   (keyword? verification) [false {:message {:message "The code is wrong"}}])))
      :handle-ok (fn [ctx]
                   (-> ctx :result generate-string))
      :handle-not-found (fn [ctx]
@@ -168,7 +169,7 @@
                 (let [verification (change-settings/change-email! code)]
                   (cond
                    (map? verification) [true {:result {:message "The email is been changed."}}]
-                   (keyword? verificata) [false {:message {:message "The validation code is wrong."}}])))
+                   (keyword? verification) [false {:message {:message "The validation code is wrong."}}])))
      :handle-ok (fn [ctx]
                   (-> ctx :result generate-string))
      :handle-not-found (fn [ctx]
@@ -182,7 +183,7 @@
                 (let [verification (change-settings/change-password! code)]
                   (cond
                    (map? verification) [true {:result {:message "The password is been changed."}}]
-                   (keyword? verificata) [false {:message {:message "The validation code is wrong."}}])))
+                   (keyword? verification) [false {:message {:message "The validation code is wrong."}}])))
      :handle-ok (fn [ctx]
                   (-> ctx :result generate-string))
      :handle-not-found (fn [ctx]
@@ -221,7 +222,7 @@
    :existed? false :post-to-missing? false
    :handle-not-found (fn [ctx] (generate-string (:not-exist ctx)))
    :post! (fn [ctx]
-            (let [updated-user (prepare-change-password! (get-in ctx [:user :database])
+            (let [updated-user (change-settings/prepare-change-password! (get-in ctx [:user :database])
                                                          (:user-to-modify ctx)
                                                          (:new_password ctx))]
               {:updated-user updated-user}))
@@ -236,7 +237,7 @@
   (POST "/password" {p :params}
         (let [id (:id (friend/current-authentication))
               {:keys [new-password password]} p]
-          (if-let [user (change-settings/ask-change-password! id new-password password)]
+          (if-let [user (change-settings/prepare-change-password! id new-password password)]
             (do
               ;(email/conferma-cambio-password (:email user) (:password_reset_code user))
               "È stata mandata un email per il cambio password")
@@ -245,7 +246,7 @@
   (POST "/email" {p :params}
         (let [email (:id (friend/current-authentication))
               {:keys [new-email password]} p]
-          (if-let [user (change-settings/ask-change-email! email new-email password)]
+          (if-let [user (change-settings/prepare-change-email! email new-email password)]
             (do
               ;(email/conferma-cambio-email (:new_requested_email user) (:email_change_code user))
               (str "È stata mandata un email al nuovo indirizzo per confermare il cambio email"))
