@@ -6,6 +6,7 @@
             [cemerick.friend.credentials :as creds]
             [noir.validation :as v]
             [clj-time.core :as t])
+
   (:require [robert.utils :as u]
             [robert.model.config :refer [connection]]))
 

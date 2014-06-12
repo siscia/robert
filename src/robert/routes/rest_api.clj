@@ -2,7 +2,7 @@
   (:require [compojure.core :refer [defroutes GET POST context ANY PATCH]]
             [compojure.handler :as handler]
             [compojure.route :as route]
-            [noir.validation :as vali]
+
             [cemerick.friend :as friend]
             [cemerick.friend.credentials :as creds]
             [liberator.core :refer [defresource resource]]
