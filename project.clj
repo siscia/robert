@@ -18,6 +18,7 @@
                  [environ "0.5.0"]]
   :plugins [[lein-ring "0.8.10"]
             [lein-environ "0.5.0"]]
+  :main robert.handler
   :ring {:handler robert.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]

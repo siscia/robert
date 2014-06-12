@@ -1,4 +1,5 @@
 (ns robert.handler
+  (:gen-class :main true)
   (:use compojure.core)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
