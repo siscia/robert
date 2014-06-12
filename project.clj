@@ -20,6 +20,7 @@
             [lein-environ "0.5.0"]]
   :main robert.handler
   :ring {:handler robert.handler/app}
+  :min-lein-version "2.0.0"
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]
