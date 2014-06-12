@@ -14,8 +14,10 @@
                  [lib-noir "0.8.1"]
                  [com.draines/postal "1.11.1"]
                  [liberator "0.11.0"]
-                 [cheshire "5.3.1"]]
-  :plugins [[lein-ring "0.8.10"]]
+                 [cheshire "5.3.1"]
+                 [environ "0.5.0"]]
+  :plugins [[lein-ring "0.8.10"]
+            [lein-environ "0.5.0"]]
   :ring {:handler robert.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]

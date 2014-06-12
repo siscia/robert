@@ -2,6 +2,7 @@
   (:use compojure.core)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
+            [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.basic-authentication :refer [wrap-basic-authentication]]
@@ -27,3 +28,7 @@
              wrap-json-params
              handler/site ;;TODO add keywordize to the handler
              (wrap-trace :header :ui)))
+
+(defn -main []
+  (let [port (Integer/parseInt (get (System/getenv) "PORT" "8080"))]
+    (run-jetty app {:port port})))
