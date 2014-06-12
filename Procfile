@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/wit-standalone.jar clojure.main -m robert.handler $PORT
+web: java $JVM_OPTS -cp target/robert-standalone.jar clojure.main -m robert.handler $PORT
