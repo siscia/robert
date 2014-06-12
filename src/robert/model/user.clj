@@ -1,16 +1,14 @@
 (ns robert.model.user
+  (:refer-clojure :exclude [find])
   (:require [monger.core :refer [get-db]]
             [monger.collection :as mc]
             [monger.joda-time]
             [monger.operators :refer :all]
             [cemerick.friend.credentials :as creds]
-            [noir.validation :as v]
             [clj-time.core :as t])
 
   (:require [robert.utils :as u]
             [robert.model.config :refer [connection]]))
-
-(alter-var-root (var v/*errors*) (fn [_] (atom {})))
 
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
